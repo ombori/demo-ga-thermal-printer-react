@@ -1,5 +1,5 @@
-# {{applicationName}} #
-by {{author}}
+# printer-test-star #
+by Vnx Test Parent
 
 A short description will be displayed in application list.
 

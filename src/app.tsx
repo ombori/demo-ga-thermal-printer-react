@@ -1,104 +1,121 @@
-import React, { useEffect, useCallback, useState } from 'react';
-import { getInstance as gs } from '@ombori/grid-signals-react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { useSettings } from '@ombori/ga-settings';
-import logo from './logo.svg';
+import { usePrinter } from '@ombori/ga-thermal-printer-react';
+import { useHeartbeat } from '@ombori/ga-messaging';
 
-import { Schema as Settings } from './schema';
+const testData = {
+  title: 'UPSIDEDOWN',
+  dateTime: '02.12.2021 12:00',
+  store: "Jovanni's Store",
+  instruction: 'Take this receipt to the nearest cash register to complete the purchase.',
+  thankYouMessage: 'Thank you for shopping with us!',
+  items: [
+    {
+      title: 'LAVATOIO 60CM ROVERE CHIARO MONDO 2.0',
+      sku: '527030',
+      price: '$00.00',
+      barcode: '978020137962'
+    },
+    {
+      title: 'DISPENSER SAPONE BIANCO LINEA POP',
+      sku: '006001',
+      price: '$00.00',
+      barcode: '978020137444'
+    },
+    {
+      title: 'P/SAPONE BIANCO LINEA POP',
+      sku: '006001',
+      price: '$00.00',
+      barcode: '978020137666'
+    }
+  ],
+};
 
 function App() {
-  const [productCount, setProductCount] = useState(0);
-  const settings = useSettings<Settings>();
+  useHeartbeat();
+  const [error, setError] = React.useState('');
+  const [toastMsg, setToastMsg] = React.useState('');
+  const { printerInfo, printerInstance } = usePrinter();
 
-  const productName = settings?.productName;
-  const productPrice = settings?.productPrice;
-
-  useEffect(() => {
-    if (productName) {
-      gs().sendContentView({ title: productName });
-    }
-  }, [productName]);
-
-  useEffect(() => {
-    const startSessionSubscription = async () => {
-      const sessionState = await gs().subscribeSessionState((sessionState) => {
-        setProductCount(sessionState.CART['TEMPORARY-PRODUCT-ID-123']);
-      });
+  const onPrint = React.useCallback(async () => {
+    try {
+      if (printerInstance) {
+        printerInstance.alignLeft();
+        printerInstance.bold(true);
+        printerInstance.setTextSize(1, 1);
+        printerInstance.println(testData.title);
   
-      return () => {
-        sessionState.stop();
+        printerInstance.newLine();
+  
+        printerInstance.bold(false);
+        printerInstance.setTextSize(.5, .5);
+        printerInstance.println(testData.dateTime);
+        printerInstance.println(testData.store);
+  
+        printerInstance.partialCut();
+        printerInstance.upsideDown(true);
+        printerInstance.execute();
+        console.log('printing job started');
+      } else {
+        setToastMsg('Printer not detected');
+      }
+    } catch (err) {
+      setToastMsg((err as any).message);
+      console.log(err);
+
+      console.error(`Failed to print ticket: ${err}`);
+    }
+  }, [error, printerInstance]);
+
+  useEffect(() => {
+    console.log('printerInfo:', printerInfo);
+    if (!printerInfo) {
+      setError('Printer not detected');
+    } else {
+      setError('');
+    }
+  }, [printerInfo]);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+
+    if (toastMsg) {
+      timeout = setTimeout(() => {
+        setToastMsg('');
+      }, 2000);
+    }
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
       }
     }
-
-    startSessionSubscription();
-  }, []);
-
-  const onAddToCart = useCallback(() => {
-    gs().sendCartAdd({ productId: 'TEMPORARY-PRODUCT-ID-123', quantity: 1 })
-  }, []);
-
-  if (!settings) {
-    return <Container>Loading gridapp settings...</Container>
-  }
+  }, [toastMsg]);
 
   return (
     <Container>
-      <ProductInfo>
-        <Logo src={logo} alt="logo" />
-        <p>Product name: {productName}</p>
-        <p>Product price: {productPrice}</p>
-        <Button onClick={onAddToCart}>Add to Cart</Button>
-      </ProductInfo>
-      <RealTimeInfo>
-        <p>Real Cart Subscription</p>
-        <p>{productName} count: {productCount}</p>
-      </RealTimeInfo>
+      {printerInfo && <p>{JSON.stringify(printerInfo)}</p>}
+      {!error && !toastMsg && (
+        <button style={{ color: 'black', fontSize: '72px', padding: '32px', paddingLeft: '72px', paddingRight: '72px', borderRadius: '16px' }} onClick={onPrint}>
+          PRINT
+        </button>
+      )}
+      {(error || toastMsg) && <p style={{ color: 'red', fontSize: '72px' }}>{toastMsg ? toastMsg : error}</p>}
     </Container>
   );
 }
 
-const Container = styled.div`
-  text-align: center;
+const Container = styled.header`
   background-color: #282c34;
-  height: 100%;
-  position: absolute;
+  min-height: 100vh;
   display: flex;
-  flex-direction: row;
-  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
   color: white;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 1.5vmin);
-`;
-
-const ProductInfo = styled.header`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding-bottom: 64px;
-  border-right: solid 1px white;
-`;
-
-const Logo = styled.img`
-  height: 40vmin;
-  pointer-events: none;
-`;
-
-const Button = styled.button`
-  padding: 16px 32px;
-  margin-top: 24px;
-  align-self: center;
-  border-radius: 8px;
-`;
-
-const RealTimeInfo = styled.footer`
-  display: flex;
-  height: 100%;
-  flex: 1;
-  flex-direction: column;
-  pointer-events: none;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
 `;
 
 export default App;
