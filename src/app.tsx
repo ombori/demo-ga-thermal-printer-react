@@ -43,13 +43,11 @@ function App() {
       if (printerInstance) {
         printerInstance.alignLeft();
         printerInstance.bold(true);
-        printerInstance.setTextSize(1, 1);
         printerInstance.println(testData.title);
   
         printerInstance.newLine();
   
         printerInstance.bold(false);
-        printerInstance.setTextSize(.5, .5);
         printerInstance.println(testData.dateTime);
         printerInstance.println(testData.store);
   
@@ -62,14 +60,13 @@ function App() {
       }
     } catch (err) {
       setToastMsg((err as any).message);
-      console.log(err);
+      console.error(err);
 
       console.error(`Failed to print ticket: ${err}`);
     }
   }, [error, printerInstance]);
 
   useEffect(() => {
-    console.log('printerInfo:', printerInfo);
     if (!printerInfo) {
       setError('Printer not detected');
     } else {
@@ -106,16 +103,20 @@ function App() {
   );
 }
 
-const Container = styled.header`
+const Container = styled.div`
   background-color: #282c34;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: 32px;
   color: white;
   text-align: center;
+  width: 100%;
+  white-space: normal;
+  overflow: hidden;
+  overflow-wrap: anywhere;
 `;
 
 export default App;

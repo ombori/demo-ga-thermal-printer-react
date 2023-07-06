@@ -2165,19 +2165,19 @@
   resolved "https://registry.yarnpkg.com/@ombori/ga-messaging/-/ga-messaging-3.20.6.tgz#2b49535319cb85b7eaf5e7b3e60e433703da0bde"
   integrity sha512-ElFfl2WaBOgmzYPV2DsuNqv7tHMCEU+qrK88EeeXd35aLRnpWHNL2yrBZXrTR10KqIURnLyH5/IvjPmijhyJkw==
 
-"@ombori/ga-thermal-printer-react@^3.48.0":
-  version "3.48.0"
-  resolved "https://registry.yarnpkg.com/@ombori/ga-thermal-printer-react/-/ga-thermal-printer-react-3.48.0.tgz#cfa8be96c1731e940da616377b516ae731e4fe83"
-  integrity sha512-mxboR652svkTQ3ZX8OhX/7aqy5CMP4qJMyWcn+4hU4vMtNrfh//s5ZbuJLHV8Dv19H426HyfBZqIo5ssqITQDQ==
+"@ombori/ga-thermal-printer-react@^3.51.3":
+  version "3.51.3"
+  resolved "https://registry.yarnpkg.com/@ombori/ga-thermal-printer-react/-/ga-thermal-printer-react-3.51.3.tgz#2be807539f66535763281803922db924db173a3f"
+  integrity sha512-QBe8rsaVJrOQ0QnCXlxB8rCYhxxM+Djf5SEDYuGbFmYXvtx0Z7vFXDYLQSXQy+UcI4XQSeOTNC4N300asmA2GA==
   dependencies:
-    "@ombori/ga-thermal-printer" "^2.57.1"
+    "@ombori/ga-thermal-printer" "^3.51.3"
 
-"@ombori/ga-thermal-printer@^2.57.1":
-  version "2.57.1"
-  resolved "https://registry.yarnpkg.com/@ombori/ga-thermal-printer/-/ga-thermal-printer-2.57.1.tgz#c9eb85ed578b7da0c2771171dae4b98f95676d3e"
-  integrity sha512-Q7dOGeLMO4dW8pTmnK6FBRBw3UITbynhtgmYdQO7hYS5Cl5YrWqe0eYu5Na2bHtWyToTq9HIq1Mj2lN0e6DSgg==
+"@ombori/ga-thermal-printer@^3.51.3":
+  version "3.51.3"
+  resolved "https://registry.yarnpkg.com/@ombori/ga-thermal-printer/-/ga-thermal-printer-3.51.3.tgz#53d0923b62f1d44ed3f7adbac4767ec98249e55c"
+  integrity sha512-qSBRwWcdVF63i4OntR0SwQn6tT6NkPGVPM0yyMCjXeKFhnyiSddN//RqpY5diqURX3q0Q/vEJ+NKl58urMJG0A==
   dependencies:
-    node-thermal-printer "^4.2.1"
+    node-thermal-printer "^4.1.2"
 
 "@ombori/ts-schema@^2.82.17":
   version "2.231.1"
@@ -8899,7 +8899,7 @@ node-releases@^2.0.6:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.8.tgz#0f349cdc8fcfa39a92ac0be9bc48b7706292b9ae"
   integrity sha512-dFSmB8fFHEH/s81Xi+Y/15DQY6VHW81nXRj86EMSL3lmuTmK1e+aT4wrFCkTbm+gSwkw4KpX+rT/pMM2c1mF+A==
 
-node-thermal-printer@^4.2.1:
+node-thermal-printer@^4.1.2:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/node-thermal-printer/-/node-thermal-printer-4.2.1.tgz#a3d0625f4e96f585fd34dd1f64c7cc77e90cd2ab"
   integrity sha512-gu+SC81vXcOzr+g03Rc5Ksou6d0Zod1JyJC9RK9cf8IuIDftG0B+rycIJ3KqAEuU/N6tjAyej6WEiG/I/nwFKA==
