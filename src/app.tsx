@@ -64,7 +64,7 @@ function App() {
 
       console.error(`Failed to print ticket: ${err}`);
     }
-  }, [error, printerInstance]);
+  }, [printerInstance]);
 
   useEffect(() => {
     if (!printerInfo) {
